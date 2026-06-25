@@ -24,10 +24,18 @@ async function run() {
   try {
     await client.connect();
 
-    console.log("✅ MongoDB Connected");
+    console.log(" MongoDB Connected");
+
+    const database = client.db("arthubDB");
+    const artworksCollection = database.collection("artworks");
 
     app.get("/", (req, res) => {
       res.send("ArtHub Server Running");
+    });
+
+    app.get("/artworks", async (req, res) => {
+     const result = await artworksCollection.find().toArray();
+     res.send(result);
     });
   } finally {
   }
@@ -36,5 +44,5 @@ async function run() {
 run().catch(console.dir);
 
 app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
+  console.log(` Server running on port ${port}`);
 });
