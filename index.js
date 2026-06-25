@@ -53,6 +53,21 @@ async function run() {
 
      res.send(result);
     });
+
+    app.patch("/artworks/:id", async (req, res) => {
+     const id = req.params.id;
+     const updatedArtwork = req.body;
+
+     const filter = { _id: new ObjectId(id) };
+
+     const updatedDoc = {
+      $set: updatedArtwork,
+     };
+
+     const result = await artworksCollection.updateOne(filter, updatedDoc);
+
+     res.send(result);
+    });
   } finally {
   }
 }
