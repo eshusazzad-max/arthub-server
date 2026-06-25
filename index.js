@@ -28,6 +28,7 @@ async function run() {
 
     const database = client.db("arthubDB");
     const artworksCollection = database.collection("artworks");
+    const usersCollection = database.collection("users");
 
     app.get("/", (req, res) => {
       res.send("ArtHub Server Running");
@@ -75,6 +76,14 @@ async function run() {
      const query = { _id: new ObjectId(id) };
 
      const result = await artworksCollection.deleteOne(query);
+
+     res.send(result);
+    });
+
+    app.post("/users", async (req, res) => {
+     const user = req.body;
+
+     const result = await usersCollection.insertOne(user);
 
      res.send(result);
     });
