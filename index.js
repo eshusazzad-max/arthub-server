@@ -83,9 +83,23 @@ async function run() {
     app.post("/users", async (req, res) => {
      const user = req.body;
 
-     const result = await usersCollection.insertOne(user);
+     const existingUser = await usersCollection.findOne({
+      email: user.email,
+    });
 
-     res.send(result);
+     if (existingUser) {
+      return res.send({
+        message: "User already exists",
+        inserted: false,
+     });
+    }
+
+     user.role = "user";
+     user.createdAt = new Date();
+
+      const result = await usersCollection.insertOne(user);
+
+      res.send(result);
     });
 
     app.get("/users", async (req, res) => {
