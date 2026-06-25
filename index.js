@@ -37,6 +37,12 @@ async function run() {
      const result = await artworksCollection.find().toArray();
      res.send(result);
     });
+
+    app.post("/artworks", async (req, res) => {
+     const newArtwork = req.body;
+     const result = await artworksCollection.insertOne(newArtwork);
+     res.send(result);
+    });
   } finally {
   }
 }
